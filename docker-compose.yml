@@ -1,0 +1,14 @@
+services:
+  sonar-cli:
+    image: sonarqube-cli:1.0.0.2628-al2023
+    container_name: sonar_toolbox
+    volumes:
+      # Make sure your exported this variable which points to whichever git repo directory you want to work on.
+      - ${TARGET_PATH}:/workspace
+    environment:
+      - SONARQUBE_CLI_TOKEN=${SONARQUBE_CLI_TOKEN}
+      - SONARQUBE_CLI_SERVER=https://your-internal-sonarqube-server.com
+    # Override the default tool execution to drop into a shell instead
+    entrypoint: /bin/sh
+    stdin_open: true # Keeps stdin open (equivalent to -i)
+    tty: true # Allocates a pseudo-TTY (equivalent to -t)
