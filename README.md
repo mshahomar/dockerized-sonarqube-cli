@@ -28,3 +28,5 @@ export TARGET_PATH="<whatever path you want to analyze>"
 docker compose run --rm sonar-cli
 
 ```
+
+Refer to SonaarQube CLI basic commands [here](https://github.com/SonarSource/sonarqube-cli#step-3-try-basic-commands).

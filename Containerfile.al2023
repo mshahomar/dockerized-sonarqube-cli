@@ -1,18 +1,19 @@
 FROM public.ecr.aws/amazonlinux/amazonlinux:2023-minimal
 
-# Amazon Linux 2023 minimal uses microdnf instead of apt-get
+# Amazon Linux 2023 minimal uses microdnf. Add jq because why not?
 RUN microdnf update -y && microdnf install -y \
   ca-certificates \
   git \
+  jq \
   && microdnf clean all
 
 # Run the official SonarSource installer script
-# The root user's home directory is /root, matching the previous setup
 RUN curl -fsSL https://raw.githubusercontent.com/SonarSource/sonarqube-cli/refs/heads/master/user-scripts/install.sh | bash \
   && mv /root/.local/share/sonarqube-cli/bin/sonar /usr/local/bin/sonar
 
-# Verify the binary runs natively on AL2023 
-RUN sonar --version
+# this git command is needed to avoid the dubious error when running sonar in a git repo which maps to /workspace:
+RUN git config --global --add safe.directory '*' ; \
+  sonar --version
 
 WORKDIR /workspace
 ENTRYPOINT ["sonar"]
