@@ -4,7 +4,7 @@ services:
     container_name: sonar_toolbox
     volumes:
       # Make sure your exported this variable which points to whichever git repo directory you want to work on.
-      - ${TARGET_PATH}:/workspace
+      - ${TARGET_PATH:-.}:/workspace
     environment:
       - SONARQUBE_CLI_TOKEN=${SONARQUBE_CLI_TOKEN}
       - SONARQUBE_CLI_SERVER=https://your-internal-sonarqube-server.com
